@@ -13,7 +13,7 @@ export default function Home() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
         <h2 className="text-2xl sm:text-3xl font-bold">Proyectos</h2>
-        <Link href="/agregar">
+        <Link href="/add-project">
           <Button className="w-full sm:w-auto">Agregar Proyecto</Button>
         </Link>
       </div>
