@@ -3,21 +3,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { MoreVertical, Edit2, Trash2, User } from 'lucide-react'
 
-export default function ProjectCard({ project }) {
-  //useState para editar/eliminar proyecto (Insertar ENDpoints de API)
+export default function ProjectCard({ project, onEdit, onDelete }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = () => setMenuOpen(!menuOpen)
-
-  const handleEdit = () => {
-    //ENDpoint editproject
-    console.log('Editar proyecto', project.id)
-  }
-
-  const handleDelete = () => {
-    //ENDpoint deleteproject 
-    console.log('Borrar proyecto', project.id)
-  }
 
   return (
     <section className="bg-white rounded-lg shadow-md p-6 relative">
@@ -39,7 +28,7 @@ export default function ProjectCard({ project }) {
         <span className="ml-2 text-gray-600">{project.user?.name || 'Usuario no asignado'}</span>
       </section>
       <p className="text-sm text-gray-500">Creado el: {project.createdAt || 'Fecha desconocida'}</p>
-
+      
       <section className="absolute top-4 right-4">
         <button onClick={toggleMenu} className="text-gray-500 hover:text-gray-700">
           <MoreVertical size={20} />
@@ -47,14 +36,20 @@ export default function ProjectCard({ project }) {
         {menuOpen && (
           <section className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
             <button
-              onClick={handleEdit}
+              onClick={() => {
+                onEdit()
+                setMenuOpen(false)
+              }}
               className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
               <Edit2 size={16} className="inline mr-2" />
               Editar
             </button>
             <button
-              onClick={handleDelete}
+              onClick={() => {
+                onDelete()
+                setMenuOpen(false)
+              }}
               className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
               <Trash2 size={16} className="inline mr-2" />
