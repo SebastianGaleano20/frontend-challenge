@@ -1,33 +1,42 @@
 'use client'
-import Image from 'next/image'
+
 import { useState } from 'react'
 import { MoreVertical, Edit2, Trash2, User } from 'lucide-react'
 
-export default function ProjectCard({ project, onEdit, onDelete }) {
+type Project = {
+  id: number
+  name: string
+  description: string
+  projectManager: string
+  assignedUser: string
+  status: 'enabled' | 'disabled'
+}
+
+type ProjectCardProps = {
+  project: Project
+  onEdit: () => void
+  onDelete: () => void
+}
+
+export default function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = () => setMenuOpen(!menuOpen)
 
   return (
     <section className="bg-white rounded-lg shadow-md p-6 relative">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">{project.name || 'Proyecto sin nombre'}</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">{project.name}</h2>
+      <p className="text-gray-600 mb-4">{project.description}</p>
       <section className="flex items-center mb-4">
-        {project.user && project.user.avatar ? (
-          <Image
-            src={project.user.avatar}
-            alt={project.user.name || 'Usuario'}
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-        ) : (
-          <section className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <User size={20} className="text-gray-500" />
-          </section>
-        )}
-        <span className="ml-2 text-gray-600">{project.user?.name || 'Usuario no asignado'}</span>
+        <User size={20} className="text-gray-500 mr-2" />
+        <span className="text-gray-600">{project.assignedUser}</span>
       </section>
-      <p className="text-sm text-gray-500">Creado el: {project.createdAt || 'Fecha desconocida'}</p>
+      <p className="text-sm text-gray-500">Project Manager: {project.projectManager}</p>
+      <p className="text-sm text-gray-500 mt-2">
+        Estado: <span className={project.status === 'enabled' ? 'text-green-500' : 'text-red-500'}>
+          {project.status === 'enabled' ? 'Habilitado' : 'Deshabilitado'}
+        </span>
+      </p>
       
       <section className="absolute top-4 right-4">
         <button onClick={toggleMenu} className="text-gray-500 hover:text-gray-700">
