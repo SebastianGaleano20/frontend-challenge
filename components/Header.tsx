@@ -1,11 +1,11 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { ArrowLeft, Plus } from 'lucide-react'
-import { useAppNavigation } from './navigation'
 
 export default function Header({ view }) {
-  const navigation = useAppNavigation()
+  const router = useRouter()
 
   return (
     <header className="bg-white shadow">
@@ -17,7 +17,7 @@ export default function Header({ view }) {
           ) : (
             <section className="flex items-center ml-4">
               <button 
-                onClick={navigation.goToHome} 
+                onClick={() => router.push('/')}
                 className="flex items-center text-gray-600 hover:text-gray-800"
               >
                 <ArrowLeft size={24} />
@@ -31,7 +31,7 @@ export default function Header({ view }) {
         </section>
         {view === 'landing' && (
           <button
-            onClick={navigation.goToCreateProject}
+            onClick={() => router.push('/create-project')}
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center"
           >
             <Plus size={20} />
