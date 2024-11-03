@@ -1,17 +1,38 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import ProjectCard from './ProjectCard'
-import { useAppNavigation } from './navigation'
+
+type Project = {
+  id: number
+  name: string
+  description: string
+  projectManager: string
+  assignedUser: string
+  status: 'enabled' | 'disabled'
+}
 
 export default function ProjectList() {
-  const navigation = useAppNavigation()
-  const [projects, setProjects] = useState([
-    { id: 1, name: 'Proyecto A', description: 'Descripción del Proyecto A', projectManager: 'Manager 1', assignedUser: 'Usuario 1', status: 'enabled' },
-    { id: 2, name: 'Proyecto B', description: 'Descripción del Proyecto B', projectManager: 'Manager 2', assignedUser: 'Usuario 2', status: 'disabled' },
-  ])
+  const router = useRouter()
+  const [projects, setProjects] = useState<Project[]>([])
 
-  const handleDeleteProject = (projectId) => {
+  useEffect(() => {
+    // Simular la carga de proyectos desde una API
+    const fetchProjects = async () => {
+      // Simula una llamada a la API
+      const mockProjects: Project[] = [
+        { id: 1, name: 'Proyecto A', description: 'Descripción del Proyecto A', projectManager: 'Manager 1', assignedUser: 'Usuario 1', status: 'enabled' },
+        { id: 2, name: 'Proyecto B', description: 'Descripción del Proyecto B', projectManager: 'Manager 2', assignedUser: 'Usuario 2', status: 'disabled' },
+      ]
+      setProjects(mockProjects)
+    }
+
+    fetchProjects()
+  }, [])
+
+  const handleDeleteProject = async (projectId: number) => {
+    // Aca la logica para eliminar el proyecto en la API
     setProjects(projects.filter(p => p.id !== projectId))
   }
 
@@ -21,7 +42,7 @@ export default function ProjectList() {
         <ProjectCard
           key={project.id}
           project={project}
-          onEdit={() => navigation.goToEditProject(project.id)}
+          onEdit={() => router.push(`/edit-project/${project.id}`)}
           onDelete={() => handleDeleteProject(project.id)}
         />
       ))}
