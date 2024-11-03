@@ -1,7 +1,24 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 
-export default function ProjectForm({ project, onSubmit, onCancel }) {
-  const [formData, setFormData] = useState({
+type Project = {
+  id?: number
+  name: string
+  description: string
+  projectManager: string
+  assignedUser: string
+  status: 'enabled' | 'disabled'
+}
+
+type ProjectFormProps = {
+  project?: Project
+  onSubmit: (project: Project) => void
+  isSubmitting: boolean
+}
+
+export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
+  const [formData, setFormData] = useState<Project>({
     name: '',
     description: '',
     projectManager: '',
@@ -15,18 +32,17 @@ export default function ProjectForm({ project, onSubmit, onCancel }) {
     }
   }, [project])
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit(formData)
   }
 
-  // Insertar ENDPOINTS aca
-  //Ejemplos momentaneos
+  // Simulacion de api
   const managers = ['Manager 1', 'Manager 2', 'Manager 3']
   const users = ['Usuario 1', 'Usuario 2', 'Usuario 3']
 
@@ -56,7 +72,7 @@ export default function ProjectForm({ project, onSubmit, onCancel }) {
           name="description"
           value={formData.description}
           onChange={handleChange}
-          rows="3"
+          rows={3}
         ></textarea>
       </section>
       <section className="mb-4">
@@ -64,7 +80,7 @@ export default function ProjectForm({ project, onSubmit, onCancel }) {
           Project Manager
         </label>
         <select
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="projectManager"
           name="projectManager"
           value={formData.projectManager}
@@ -112,8 +128,9 @@ export default function ProjectForm({ project, onSubmit, onCancel }) {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
+          disabled={isSubmitting}
         >
-          {project ? 'Actualizar' : 'Crear'} Proyecto
+          {isSubmitting ? 'Guardando...' : (project ? 'Actualizar' : 'Crear') + ' Proyecto'}
         </button>
       </section>
     </form>
