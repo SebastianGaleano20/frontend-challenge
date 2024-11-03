@@ -4,7 +4,11 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Plus } from 'lucide-react'
 
-export default function Header({ view }) {
+type HeaderProps = {
+  view: 'landing' | 'create' | 'edit'
+}
+
+export default function Header({ view }: HeaderProps) {
   const router = useRouter()
 
   return (
