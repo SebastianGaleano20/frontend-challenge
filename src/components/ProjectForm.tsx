@@ -1,22 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-
-type Project = {
-  id?: number
-  name: string
-  description: string
-  projectManager: string
-  assignedUser: string
-  status: 'enabled' | 'disabled'
-}
-
-type ProjectFormProps = {
-  project?: Project
-  onSubmit: (project: Project) => void
-  isSubmitting: boolean
-}
-
+import { useState, useEffect } from 'react';
+import type { Project, ProjectFormProps} from '@/types/components/index';
+//Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
   const [formData, setFormData] = useState<Project>({
     name: '',

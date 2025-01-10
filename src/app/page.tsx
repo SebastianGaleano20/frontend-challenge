@@ -1,7 +1,7 @@
 'use client'
 import { Suspense } from 'react'
-import Header from '../components/Header'
-import ProjectList from '../components/ProjectList'
+import Header from '@/components/Header'
+import ProjectList from '@/components/ProjectList'
 
 export default function Home() {
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import ProjectForm from './ProjectForm'
+import ProjectForm from '@/components/ProjectForm'
 
 export default function CreateProjectForm() {
   const router = useRouter()
