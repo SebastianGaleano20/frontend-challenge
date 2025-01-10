@@ -15,9 +15,9 @@ export default function Header({ view }: HeaderProps) {
     <header className="bg-white shadow">
       <section className="container mx-auto px-4 py-6 flex items-center justify-between">
         <section className="flex items-center">
-          <Image src="/logo.svg" alt="Logo" width={40} height={40} />
+          <Image src="/icons/logo.svg" alt="Logo" width={40} height={40} />
           {view === 'landing' ? (
-            <h1 className="ml-4 text-2xl font-bold text-gray-800">Gestión de Proyectos</h1>
+            <h1 className="ml-4 text-lg font-bold text-gray-800 md:text-2xl">Gestión de Proyectos</h1>
           ) : (
             <section className="flex items-center ml-4">
               <button 
@@ -39,7 +39,7 @@ export default function Header({ view }: HeaderProps) {
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center"
           >
             <Plus size={20} />
-            <span className="ml-2">Agregar Proyecto</span>
+            <span className="ml-2 text-sm md:text-lg">Agregar Proyecto</span>
           </button>
         )}
       </section>
