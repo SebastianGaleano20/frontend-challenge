@@ -7,7 +7,7 @@ export function useAppNavigation() {
 
   return {
     goToCreateProject: () => router.push('/create-project'),
-    goToEditProject: (id) => router.push(`/edit-project/${id}`),
+    goToEditProject: (id: number) => router.push(`/edit-project/${id}`),
     goToHome: () => router.push('/'),
   }
 }

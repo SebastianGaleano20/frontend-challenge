@@ -1,28 +1,33 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ProjectForm from './ProjectForm'
-import type { EditProjectFormProps, Project } from '@/types/components/index'
-
+import { EditProjectFormProps, Project } from '@/types/components'
 
 export default function EditProjectForm({ projectId }: EditProjectFormProps) {
   const router = useRouter()
   const [project, setProject] = useState<Project | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    // Simular la carga del proyecto desde una API
     const fetchProject = async () => {
-      // En una aplicación real, esto sería una llamada a la API
-      const mockProject = {
-        id: Number(projectId),
-        name: `Proyecto ${projectId}`,
-        description: `Descripción del Proyecto ${projectId}`,
-        projectManager: 'Manager 1',
-        assignedUser: 'Usuario 1',
-        status: 'enabled'
+      setIsLoading(true)
+      try {
+        //Obtención de datos
+        const response = await fetch(`/api/projects/${projectId}`)
+        if (!response.ok) {
+          throw new Error('Failed to fetch project')
+        }
+        const data = await response.json()
+        //Actualizamos data
+        setProject(data)
+      } catch (error) {
+        console.error('Error fetching project:', error)
+      } finally {
+        setIsLoading(false)
       }
-      setProject(mockProject)
     }
 
     fetchProject()
@@ -31,11 +36,21 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
   const handleEditProject = async (updatedProject: Project) => {
     setIsSubmitting(true)
     try {
-      // Aquí iría la lógica para actualizar el proyecto
-      console.log('Proyecto actualizado:', updatedProject)
-      // Simular una llamada a la API
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      router.push('/')
+      //Enviamos la data actualizada
+      const response = await fetch(`/api/projects/${projectId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProject),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update project')
+      }
+
+      router.push('/projects')
+      router.refresh()
     } catch (error) {
       console.error('Error al actualizar el proyecto:', error)
     } finally {
@@ -43,8 +58,12 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
     }
   }
 
-  if (!project) {
+  if (isLoading) {
     return <div>Cargando...</div>
+  }
+
+  if (!project) {
+    return <div>No se pudo cargar el proyecto.</div>
   }
 
   return (
