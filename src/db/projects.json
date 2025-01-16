@@ -1,19 +1,34 @@
 [
-    {
-      "id": 1,
-      "name": "Proyecto 1",
-      "description": "Descripción del Proyecto 1",
-      "projectManager": "Manager 1",
-      "assignedUser": "Usuario 1",
-      "status": "enabled"
-    },
-    {
-      "id": 2,
-      "name": "Proyecto 2",
-      "description": "Descripción del Proyecto 2",
-      "projectManager": "Manager 2",
-      "assignedUser": "Usuario 2",
-      "status": "disabled"
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Proyecto 1",
+    "description": "Descripción del Proyecto 1",
+    "projectManager": "Manager 1",
+    "assignedUser": "Usuario 1",
+    "status": "enabled"
+  },
+  {
+    "id": 2,
+    "name": "Proyecto 2",
+    "description": "Descripción del Proyecto 2",
+    "projectManager": "Manager 2",
+    "assignedUser": "Usuario 2",
+    "status": "disabled"
+  },
+  {
+    "id": 3,
+    "name": "DBZ",
+    "description": "Juego dbz",
+    "projectManager": "Manager 1",
+    "assignedUser": "Usuario 1",
+    "status": "enabled"
+  },
+  {
+    "id": 4,
+    "name": "One Piece",
+    "description": "Juego one Piece",
+    "projectManager": "Manager 2",
+    "assignedUser": "Usuario 2",
+    "status": "enabled"
+  }
+]

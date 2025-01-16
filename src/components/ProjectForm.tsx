@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation'
 import type { Project, ProjectFormProps} from '@/types/components/index';
 
 //Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
+  const router = useRouter()
   const [formData, setFormData] = useState<Project>({
     id: project ? project.id : 0,
     name: '',
@@ -25,11 +27,31 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        alert('Proyecto guardado correctamente');
+        router.push('/');
+      } else {
+        alert('Error al guardar el proyecto');
+      }
+    } catch (error) {
+      console.error('Error al guardar el proyecto:', error);
+      alert('Error al guardar el proyecto');
+    }
+  };
+  
   // Simulacion de api
   const managers = ['Manager 1', 'Manager 2', 'Manager 3']
   const users = ['Usuario 1', 'Usuario 2', 'Usuario 3']
