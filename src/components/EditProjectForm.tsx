@@ -2,14 +2,12 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ProjectForm from './ProjectForm'
+import type { EditProjectFormProps, Project } from '@/types/components/index'
 
-type EditProjectFormProps = {
-  projectId: string
-}
 
 export default function EditProjectForm({ projectId }: EditProjectFormProps) {
   const router = useRouter()
-  const [project, setProject] = useState(null)
+  const [project, setProject] = useState<Project | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -30,7 +28,7 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
     fetchProject()
   }, [projectId])
 
-  const handleEditProject = async (updatedProject) => {
+  const handleEditProject = async (updatedProject: Project) => {
     setIsSubmitting(true)
     try {
       // Aquí iría la lógica para actualizar el proyecto
