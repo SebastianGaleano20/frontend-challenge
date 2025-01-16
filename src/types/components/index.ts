@@ -15,4 +15,10 @@ export type ProjectFormProps = {
 
 export type EditProjectFormProps = {
     projectId: string
-  }
+}
+
+export type ProjectCardProps = {
+    project: Project
+    onEdit: () => void
+    onDelete: () => void
+}

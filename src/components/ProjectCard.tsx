@@ -2,21 +2,7 @@
 
 import { useState } from 'react'
 import { MoreVertical, Edit2, Trash2, User } from 'lucide-react'
-
-type Project = {
-  id: number
-  name: string
-  description: string
-  projectManager: string
-  assignedUser: string
-  status: 'enabled' | 'disabled'
-}
-
-type ProjectCardProps = {
-  project: Project
-  onEdit: () => void
-  onDelete: () => void
-}
+import type { ProjectCardProps } from '@/types/components/index'
 
 export default function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   const [menuOpen, setMenuOpen] = useState(false)
