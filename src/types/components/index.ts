@@ -8,7 +8,7 @@ export type Project = {
 }
 
 export type ProjectFormProps = {
-    project?: Project
+    project: Project
     onSubmit: (project: Project) => void
     isSubmitting: boolean
 }
