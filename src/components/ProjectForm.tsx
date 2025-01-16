@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import type { Project, ProjectFormProps} from '@/types/components/index';
+
 //Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
   const [formData, setFormData] = useState<Project>({
+    id: project ? project.id : 0,
     name: '',
     description: '',
     projectManager: '',
