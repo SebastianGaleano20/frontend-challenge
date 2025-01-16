@@ -4,7 +4,7 @@ export type Project = {
     description: string
     projectManager: string
     assignedUser: string
-    status: string
+    status: 'enabled' | 'disabled'
 }
 
 export type ProjectFormProps = {

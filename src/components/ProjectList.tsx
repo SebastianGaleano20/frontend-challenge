@@ -3,15 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ProjectCard from './ProjectCard'
-
-type Project = {
-  id: number
-  name: string
-  description: string
-  projectManager: string
-  assignedUser: string
-  status: 'enabled' | 'disabled'
-}
+import type { Project } from '@/types/components/index'
 
 export default function ProjectList() {
   const router = useRouter()
