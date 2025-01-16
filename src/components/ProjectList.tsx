@@ -10,21 +10,25 @@ export default function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([])
 
   useEffect(() => {
-    // Simular la carga de proyectos desde una API
+    //fetch para obtener los datos
     const fetchProjects = async () => {
-      // Simula una llamada a la API
-      const mockProjects: Project[] = [
-        { id: 1, name: 'Proyecto A', description: 'Descripción del Proyecto A', projectManager: 'Manager 1', assignedUser: 'Usuario 1', status: 'enabled' },
-        { id: 2, name: 'Proyecto B', description: 'Descripción del Proyecto B', projectManager: 'Manager 2', assignedUser: 'Usuario 2', status: 'disabled' },
-      ]
-      setProjects(mockProjects)
+      try {
+        const response = await fetch('/api/projects')
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects')
+        }
+        const data = await response.json()
+        setProjects(data)
+      } catch (error) {
+        console.error('Error fetching projects:', error)
+      }
     }
 
     fetchProjects()
   }, [])
 
   const handleDeleteProject = async (projectId: number) => {
-    // Aca la logica para eliminar el proyecto en la API
+    // Aquí colocar la lógica para eliminar el proyecto en la API
     setProjects(projects.filter(p => p.id !== projectId))
   }
 
