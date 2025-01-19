@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
-import type { Project, ProjectFormProps} from '@/types/components/index';
+import type { Project, ProjectFormProps } from '@/types/components/index';
 
 //Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
@@ -29,20 +29,21 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
+      //Operador ternario para consultar si actualizar la data o crearla.
+      const response = await fetch(project ? `/api/projects/${project.id}` : '/api/projects', {
+        method: project ? 'PUT' : 'POST', // Usar PUT si hay proyecto, de lo contrario POST
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const result = await response.json();
-        alert('Proyecto guardado correctamente');
-        router.push('/');
+        alert(project ? 'Proyecto actualizado correctamente' : 'Proyecto guardado correctamente');
+        router.push('/');  // Redirigir a la página de inicio u otra página
       } else {
         alert('Error al guardar el proyecto');
       }
@@ -51,7 +52,8 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
       alert('Error al guardar el proyecto');
     }
   };
-  
+
+
   // Simulacion de api
   const managers = ['Manager 1', 'Manager 2', 'Manager 3']
   const users = ['Usuario 1', 'Usuario 2', 'Usuario 3']

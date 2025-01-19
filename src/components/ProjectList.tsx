@@ -28,8 +28,14 @@ export default function ProjectList() {
   }, [])
 
   const handleDeleteProject = async (projectId: number) => {
-    // Aquí colocar la lógica para eliminar el proyecto en la API
     setProjects(projects.filter(p => p.id !== projectId))
+    const response = await fetch(`/api/projects/${projectId}`, {
+      method: 'DELETE',
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to delete project')
+    }
   }
 
   return (
@@ -38,7 +44,7 @@ export default function ProjectList() {
         <ProjectCard
           key={project.id}
           project={project}
-          onEdit={() => router.push(`/edit-project/${project.id}`)}
+          onEdit={() => router.push(`/edit-projects/${project.id}`)}
           onDelete={() => handleDeleteProject(project.id)}
         />
       ))}

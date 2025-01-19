@@ -4,10 +4,11 @@ import path from 'path'
 
 const dataFilePath = path.join(process.cwd(), 'src', 'db', 'projects.json')
 
+console.log(dataFilePath)
+
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const projects = JSON.parse(await fs.readFile(dataFilePath, 'utf8'))
   const project = projects.find((p: any) => p.id === parseInt(params.id))
-  
   if (project) {
     return NextResponse.json(project)
   } else {

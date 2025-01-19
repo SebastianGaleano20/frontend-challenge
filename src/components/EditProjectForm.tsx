@@ -29,7 +29,6 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
         setIsLoading(false)
       }
     }
-
     fetchProject()
   }, [projectId])
 
@@ -44,11 +43,9 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
         },
         body: JSON.stringify(updatedProject),
       })
-
       if (!response.ok) {
         throw new Error('Failed to update project')
       }
-
       router.push('/projects')
       router.refresh()
     } catch (error) {
