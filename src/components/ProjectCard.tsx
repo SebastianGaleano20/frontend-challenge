@@ -15,7 +15,7 @@ export default function ProjectCard({ project, onEdit, onDelete }: ProjectCardPr
       <p className="text-gray-600 mb-4">{project.description}</p>
       <section className="flex items-center mb-4">
         <User size={20} className="text-gray-500 mr-2" />
-        <span className="text-gray-600">{project.assignedUser}</span>
+        <span className="text-gray-600">{project.assignedDev}</span>
       </section>
       <p className="text-sm text-gray-500">Project Manager: {project.projectManager}</p>
       <p className="text-sm text-gray-500 mt-2">

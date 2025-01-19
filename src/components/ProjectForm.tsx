@@ -3,16 +3,19 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import type { Project, ProjectFormProps } from '@/types/components/index';
+import type { ProjectManagers, Developers } from '@/types/db';
 
 //Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
   const router = useRouter()
+  const [projectManagers, setProjectManagers] = useState<ProjectManagers[]>([])
+  const [developers, setDevelopers] = useState<Developers[]>([])
   const [formData, setFormData] = useState<Project>({
     id: project ? project.id : 0,
     name: '',
     description: '',
     projectManager: '',
-    assignedUser: '',
+    assignedDev: '',
     status: 'enabled'
   })
 
@@ -21,6 +24,36 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
       setFormData(project)
     }
   }, [project])
+
+  useEffect(() => {
+    // Función para obtener los datos de Project Managers
+    const fetchProjectManagers = async () => {
+      try {
+        const response = await fetch('/api/projectManagers');
+        const data: ProjectManagers[] = await response.json();
+        setProjectManagers(data); // Guarda los datos en el estado
+      } catch (error) {
+        console.error('Error al cargar los Project Managers:', error);
+      }
+    };
+
+    fetchProjectManagers();
+  }, []);
+
+  useEffect(() => {
+    // Función para obtener los datos de Developers
+    const fetchDevelopers = async () => {
+      try {
+        const response = await fetch('/api/developers');
+        const data: Developers[] = await response.json();
+        setDevelopers(data); // Guarda los datos en el estado
+      } catch (error) {
+        console.error('Error al cargar los Developers:', error);
+      }
+    };
+
+    fetchDevelopers(); // Llama a la función de carga de datos
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -52,11 +85,6 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
       alert('Error al guardar el proyecto');
     }
   };
-
-
-  // Simulacion de api
-  const managers = ['Manager 1', 'Manager 2', 'Manager 3']
-  const users = ['Usuario 1', 'Usuario 2', 'Usuario 3']
 
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -99,25 +127,25 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
           onChange={handleChange}
         >
           <option value="">Seleccionar Project Manager</option>
-          {managers.map((manager, index) => (
-            <option key={index} value={manager}>{manager}</option>
+          {projectManagers.map((projectManager: ProjectManagers) => (
+            <option key={projectManager.id} value={projectManager.name}>{projectManager.name}</option>
           ))}
         </select>
       </section>
       <section className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignedUser">
-          Usuario Asignado
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignedDev">
+          Programador Asignado
         </label>
         <select
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="assignedUser"
-          name="assignedUser"
-          value={formData.assignedUser}
+          id="assignedDev"
+          name="assignedDev"
+          value={formData.assignedDev}
           onChange={handleChange}
         >
-          <option value="">Seleccionar Usuario</option>
-          {users.map((user, index) => (
-            <option key={index} value={user}>{user}</option>
+          <option value="">Seleccionar Programador</option>
+          {developers.map((developer: Developers) => (
+            <option key={developer.id} value={developer.name}>{developer.name}</option>
           ))}
         </select>
       </section>

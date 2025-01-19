@@ -3,14 +3,14 @@ export type Project = {
     name: string
     description: string
     projectManager: string
-    assignedUser: string
+    assignedDev: string
     status: 'enabled' | 'disabled'
 }
 
 export type ProjectFormProps = {
-    project: Project
-    onSubmit: (project: Project) => void
-    isSubmitting: boolean
+    project?: Project
+    onSubmit?: (project: Project) => void
+    isSubmitting?: boolean
 }
 
 export type EditProjectFormProps = {
