@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ProjectForm from './ProjectForm'
 import { EditProjectFormProps, Project } from '@/types/components'
+import { useToast } from '@/context/ToastContext'
 
 export default function EditProjectForm({ projectId }: EditProjectFormProps) {
   const router = useRouter()
   const [project, setProject] = useState<Project | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { showToast } = useToast()
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -30,7 +32,7 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
       }
     }
     fetchProject()
-  }, [projectId])
+  }, [projectId, showToast])
 
   const handleEditProject = async (updatedProject: Project) => {
     setIsSubmitting(true)
@@ -46,10 +48,11 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
       if (!response.ok) {
         throw new Error('Failed to update project')
       }
+      showToast('Proyecto actualizado correctamente', 'success')
       router.push('/projects')
       router.refresh()
     } catch (error) {
-      console.error('Error al actualizar el proyecto:', error)
+      showToast('Error al actualizar el proyecto', 'error')
     } finally {
       setIsSubmitting(false)
     }

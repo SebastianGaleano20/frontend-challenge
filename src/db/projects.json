@@ -1,13 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Proyecto 1",
-    "description": "Descripción del Proyecto 1",
-    "projectManager": "Daiana",
-    "status": "enabled",
-    "assignedDev": "Sebastian"
-  },
-  {
     "id": 2,
     "name": "Proyecto 2",
     "description": "Descripción del Proyecto 2",

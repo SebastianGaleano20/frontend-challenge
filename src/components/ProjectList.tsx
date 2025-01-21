@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ProjectCard from './ProjectCard'
 import type { Project } from '@/types/components/index'
+import { useToast } from '@/context/ToastContext'
 
 export default function ProjectList() {
   const router = useRouter()
   const [projects, setProjects] = useState<Project[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const { showToast } = useToast()
 
   useEffect(() => {
     //fetch para obtener los datos
@@ -20,22 +23,34 @@ export default function ProjectList() {
         const data = await response.json()
         setProjects(data)
       } catch (error) {
-        console.error('Error fetching projects:', error)
+        showToast('Error al cargar los proyectos', 'error')
+      }finally {
+        setIsLoading(false)
       }
     }
 
     fetchProjects()
-  }, [])
+  }, [showToast])
 
   const handleDeleteProject = async (projectId: number) => {
-    setProjects(projects.filter(p => p.id !== projectId))
-    const response = await fetch(`/api/projects/${projectId}`, {
-      method: 'DELETE',
-    })
-    
-    if (!response.ok) {
-      throw new Error('Failed to delete project')
+    try {
+      const response = await fetch(`/api/projects/${projectId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete project')
+      }
+
+      setProjects(projects.filter(p => p.id !== projectId))
+      showToast('Proyecto eliminado correctamente', 'success')
+    } catch (error) {
+      showToast('Error al eliminar el proyecto', 'error')
     }
+  }
+  
+  if (isLoading) {
+    return <div className='text-black'>Cargando proyectos...</div>
   }
 
   return (
