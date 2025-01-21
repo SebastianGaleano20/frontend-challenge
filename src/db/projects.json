@@ -3,48 +3,50 @@
     "id": 1,
     "name": "Proyecto 1",
     "description": "Descripción del Proyecto 1",
-    "projectManager": "Manager 1",
-    "assignedUser": "Usuario 1",
-    "status": "disabled"
+    "projectManager": "Daiana",
+    "status": "enabled",
+    "assignedDev": "Sebastian"
   },
   {
     "id": 2,
     "name": "Proyecto 2",
     "description": "Descripción del Proyecto 2",
-    "projectManager": "Manager 2",
-    "assignedUser": "Usuario 2",
-    "status": "enabled"
+    "projectManager": "Micaela",
+    "status": "enabled",
+    "assignedDev": "Jose"
   },
   {
     "id": 3,
     "name": "DBZ",
     "description": "Juego dbz",
-    "projectManager": "Manager 1",
-    "assignedUser": "Usuario 1",
-    "status": "enabled"
+    "projectManager": "Ramon",
+    "status": "disabled",
+    "assignedDev": "Matias"
   },
   {
     "id": 4,
     "name": "One Piece",
     "description": "Juego one Piece",
-    "projectManager": "Manager 2",
-    "assignedUser": "Usuario 2",
-    "status": "enabled"
+    "projectManager": "Ramon",
+    "status": "disabled",
+    "assignedDev": "Sebastian"
   },
   {
     "id": 5,
-    "name": "brenda estupida",
+    "name": "brenda estupidaaaaaaaaaaaaaaaaa",
     "description": "brenda es estupida",
-    "projectManager": "Manager 1",
+    "projectManager": "Ramon",
     "assignedUser": "Usuario 2",
-    "status": "enabled"
+    "status": "enabled",
+    "assignedDev": "Sebastian"
   },
   {
     "id": 6,
     "name": "Proyecto x",
     "description": "Jodaaaaaaaaaa",
-    "projectManager": "Manager 1",
+    "projectManager": "Micaela",
     "assignedUser": "Usuario 1",
-    "status": "enabled"
+    "status": "enabled",
+    "assignedDev": "Jose"
   }
 ]
