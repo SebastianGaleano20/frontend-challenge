@@ -40,13 +40,5 @@
     "assignedUser": "Usuario 1",
     "status": "enabled",
     "assignedDev": "Jose"
-  },
-  {
-    "id": 7,
-    "name": "Test2",
-    "description": "Test",
-    "projectManager": "Ramon",
-    "assignedDev": "Sebastian",
-    "status": "enabled"
   }
 ]

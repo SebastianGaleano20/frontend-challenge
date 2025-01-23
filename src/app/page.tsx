@@ -5,7 +5,7 @@ import ProjectList from '@/components/ProjectList'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen bg-white dark:bg-dark text-gray-800 dark:text-gray-100">
       <Suspense fallback={<div>Cargando...</div>}>
         <Header view="landing" />
         <section className="container mx-auto px-4 py-8">
