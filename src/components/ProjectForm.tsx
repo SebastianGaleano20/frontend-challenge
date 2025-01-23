@@ -88,13 +88,13 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:border-2 dark:border-gray-400">
       <section className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+        <label className="block text-sm font-bold mb-2" htmlFor="name">
           Nombre del Proyecto
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           id="name"
           type="text"
           name="name"
@@ -104,11 +104,11 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
         />
       </section>
       <section className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+        <label className="block text-sm font-bold mb-2" htmlFor="description">
           Descripción
         </label>
         <textarea
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           id="description"
           name="description"
           value={formData.description}
@@ -117,11 +117,11 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
         ></textarea>
       </section>
       <section className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectManager">
+        <label className="block text-sm font-bold mb-2" htmlFor="projectManager">
           Project Manager
         </label>
         <select
-          className="shadow appearance-none border rounded w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
           id="projectManager"
           name="projectManager"
           value={formData.projectManager}
@@ -135,11 +135,11 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
         </select>
       </section>
       <section className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignedDev">
+        <label className="block text-sm font-bold mb-2" htmlFor="assignedDev">
           Programador Asignado
         </label>
         <select
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           id="assignedDev"
           name="assignedDev"
           value={formData.assignedDev}
@@ -153,11 +153,11 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
         </select>
       </section>
       <section className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="status">
+        <label className="block text-sm font-bold mb-2" htmlFor="status">
           Estado
         </label>
         <select
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           id="status"
           name="status"
           value={formData.status}

@@ -50,7 +50,7 @@ export default function ProjectList() {
   }
   
   if (isLoading) {
-    return <div className='text-black'>Cargando proyectos...</div>
+    return <div className='text-black dark:text-white'>Cargando proyectos...</div>
   }
 
   return (
