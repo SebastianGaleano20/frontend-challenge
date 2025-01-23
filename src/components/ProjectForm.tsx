@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import type { Project, ProjectFormProps } from '@/types/components/index';
 import type { ProjectManagers, Developers } from '@/types/db';
+import { useToast } from '@/context/ToastContext'
 
 //Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit, isSubmitting }: ProjectFormProps) {
   const router = useRouter()
+  const { showToast } = useToast()
   const [projectManagers, setProjectManagers] = useState<ProjectManagers[]>([])
   const [developers, setDevelopers] = useState<Developers[]>([])
   const [formData, setFormData] = useState<Project>({
@@ -29,35 +31,35 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
     // Función para obtener los datos de Project Managers
     const fetchProjectManagers = async () => {
       try {
-        const response = await fetch('/api/projectManagers');
-        const data: ProjectManagers[] = await response.json();
+        const response = await fetch('/api/projectManagers'); //Obtenemos los datos
+        const data: ProjectManagers[] = await response.json(); //Convertimos a JSON
         setProjectManagers(data); // Guarda los datos en el estado
       } catch (error) {
-        console.error('Error al cargar los Project Managers:', error);
+        showToast('Error al cargar los Project Managers', 'error') //Mostramos un mensaje de error
       }
     };
 
-    fetchProjectManagers();
-  }, []);
+    fetchProjectManagers(); // Llama a la función de carga de datos
+  }, [showToast]); //Dependencias
 
   useEffect(() => {
     // Función para obtener los datos de Developers
     const fetchDevelopers = async () => {
       try {
-        const response = await fetch('/api/developers');
-        const data: Developers[] = await response.json();
+        const response = await fetch('/api/developers'); //Obtenemos los datos
+        const data: Developers[] = await response.json(); //Convertimos a JSON
         setDevelopers(data); // Guarda los datos en el estado
       } catch (error) {
-        console.error('Error al cargar los Developers:', error);
+        showToast('Error al cargar los Developers', 'error') //Mostramos un mensaje de error
       }
     };
 
     fetchDevelopers(); // Llama a la función de carga de datos
-  }, []);
+  }, [showToast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    setFormData(prev => ({ ...prev, [name]: value })) // Actualiza el estado con los cambios
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,11 +80,10 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
         alert(project ? 'Proyecto actualizado correctamente' : 'Proyecto guardado correctamente');
         router.push('/');  // Redirigir a la página de inicio u otra página
       } else {
-        alert('Error al guardar el proyecto');
+        showToast('Error al guardar el proyecto', 'error')
       }
     } catch (error) {
-      console.error('Error al guardar el proyecto:', error);
-      alert('Error al guardar el proyecto');
+      showToast('Error al guardar el proyecto', 'error')
     }
   };
 
@@ -125,6 +126,7 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
           name="projectManager"
           value={formData.projectManager}
           onChange={handleChange}
+          required
         >
           <option value="">Seleccionar Project Manager</option>
           {projectManagers.map((projectManager: ProjectManagers) => (
@@ -142,6 +144,7 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
           name="assignedDev"
           value={formData.assignedDev}
           onChange={handleChange}
+          required
         >
           <option value="">Seleccionar Programador</option>
           {developers.map((developer: Developers) => (
@@ -159,6 +162,7 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
           name="status"
           value={formData.status}
           onChange={handleChange}
+          required
         >
           <option value="enabled">Habilitado</option>
           <option value="disabled">Deshabilitado</option>
@@ -171,6 +175,7 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Guardando...' : (project ? 'Actualizar' : 'Crear') + ' Proyecto'}
+          {/* expresion ternaria para mostrar el texto de actualizar o crear */}
         </button>
       </section>
     </form>
