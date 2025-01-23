@@ -26,7 +26,7 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
         //Actualizamos data
         setProject(data)
       } catch (error) {
-        console.error('Error fetching project:', error)
+        showToast('Error al actualizar datos', 'error')
       } finally {
         setIsLoading(false)
       }

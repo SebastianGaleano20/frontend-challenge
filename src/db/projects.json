@@ -1,8 +1,8 @@
 [
   {
     "id": 2,
-    "name": "Proyecto 2",
-    "description": "Descripción del Proyecto 2",
+    "name": "Proyecto Inicial",
+    "description": "Inicio",
     "projectManager": "Micaela",
     "status": "enabled",
     "assignedDev": "Jose"
@@ -25,20 +25,28 @@
   },
   {
     "id": 5,
-    "name": "brenda estupidaaaaaaaaaaaaaaaaa",
-    "description": "brenda es estupida",
+    "name": "Test",
+    "description": "Test",
     "projectManager": "Ramon",
     "assignedUser": "Usuario 2",
-    "status": "enabled",
+    "status": "disabled",
     "assignedDev": "Sebastian"
   },
   {
     "id": 6,
     "name": "Proyecto x",
-    "description": "Jodaaaaaaaaaa",
+    "description": "Proyecto de fiesta",
     "projectManager": "Micaela",
     "assignedUser": "Usuario 1",
     "status": "enabled",
     "assignedDev": "Jose"
+  },
+  {
+    "id": 7,
+    "name": "Test2",
+    "description": "Test",
+    "projectManager": "Ramon",
+    "assignedDev": "Sebastian",
+    "status": "enabled"
   }
 ]

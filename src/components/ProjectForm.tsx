@@ -77,7 +77,7 @@ export default function ProjectForm({ project, onSubmit, isSubmitting }: Project
 
       if (response.ok) {
         const result = await response.json();
-        alert(project ? 'Proyecto actualizado correctamente' : 'Proyecto guardado correctamente');
+        showToast('Proyecto guardado correctamente', 'success')
         router.push('/');  // Redirigir a la página de inicio u otra página
       } else {
         showToast('Error al guardar el proyecto', 'error')
