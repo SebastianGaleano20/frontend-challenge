@@ -8,19 +8,11 @@ export type Developer = {
   role: Role;
 };
 
-interface ObjectDevData {
-  id: number;
-  devId: number;
-  projectId: number;
-  developer: Developer;
-}
-
 export type Project = {
   id: number;
   name: string;
   description: string;
-  developers: ObjectDevData[];
-  startDate: string;
+  developers: { devId: number; role: "MANAGER" | "DEVELOPER" }[];
   status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
 };
 
