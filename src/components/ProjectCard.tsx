@@ -12,8 +12,11 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const manager = project.developers.find((dev) => dev.role === "MANAGER");
-  const developer = project.developers.find((dev) => dev.role === "DEVELOPER");
+
+  const allDevs = project.developers.map((d) => d.developer);
+  const manager = allDevs.find((dev) => dev.role === "MANAGER");
+  const developer = allDevs.find((dev) => dev.role === "DEVELOPER");
+
   return (
     <section className="bg-white dark:bg-gray-800 text-black dark:text-white dark:border-2 dark:border-gray-400 rounded-lg shadow-md p-6 relative">
       <h2 className="text-xl font-semibold mb-4">{project.name}</h2>
@@ -24,7 +27,9 @@ export default function ProjectCard({
           <Image
             src={developer.image}
             alt={developer.name}
-            className="w-8 h-8 rounded-full mr-2"
+            width={32}
+            height={32}
+            className="rounded-full mr-2"
           />
         ) : (
           <User size={20} className="mr-2" />

@@ -1,16 +1,25 @@
+type Role = "DEVELOPER" | "MANAGER";
+
 export type Developer = {
   id: number;
   name: string;
   email: string;
   image: string;
-  role: "DEVELOPER" | "MANAGER";
+  role: Role;
 };
+
+interface ObjectDevData {
+  id: number;
+  devId: number;
+  projectId: number;
+  developer: Developer;
+}
 
 export type Project = {
   id: number;
   name: string;
   description: string;
-  developers: Developer[];
+  developers: ObjectDevData[];
   startDate: string;
   status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
 };
@@ -27,8 +36,6 @@ export type EditProjectFormProps = {
 
 export type ProjectCardProps = {
   project: Project;
-  developer: Developer;
-
   onEdit: () => void;
   onDelete: () => void;
 };
