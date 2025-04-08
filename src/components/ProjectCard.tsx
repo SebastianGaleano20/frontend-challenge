@@ -55,13 +55,13 @@ export default function ProjectCard({
           <MoreVertical size={20} />
         </button>
         {menuOpen && (
-          <section className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+          <section className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
             <button
               onClick={() => {
                 onEdit();
                 setMenuOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-500 hover:ronded-md"
             >
               <Edit2 size={16} className="inline mr-2" />
               Editar
@@ -71,7 +71,7 @@ export default function ProjectCard({
                 onDelete();
                 setMenuOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-500 dark:hover:bg-gray-500"
             >
               <Trash2 size={16} className="inline mr-2" />
               Borrar

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProjectCard from "./ProjectCard";
-import type { Developer, Project } from "@/types/components/index";
+import type { Project } from "@/types/components/index";
 import { useToast } from "@/context/ToastContext";
 
 export default function ProjectList() {
