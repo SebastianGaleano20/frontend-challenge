@@ -37,7 +37,7 @@ export default function ProjectList() {
 
   const handleDeleteProject = async (projectId: number) => {
     try {
-      const response = await fetch(`/api/projects/${projectId}`, {
+      const response = await fetch(`https://pj-managament-api.up.railway.app/api/projects/${projectId}`, {
         method: "DELETE",
       });
 
