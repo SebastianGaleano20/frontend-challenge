@@ -25,8 +25,8 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
           throw new Error("Failed to fetch project");
         }
         const data = await response.json();
-        //Actualizamos data
-        setProject(data);
+        const dataProject = data.data;
+        setProject(dataProject);
       } catch (error) {
         showToast("Error al actualizar datos", "error");
       } finally {
@@ -34,7 +34,7 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
       }
     };
     fetchProject();
-  }, [projectId, showToast]);
+  }, [projectId]);
 
   const handleEditProject = async (updatedProject: Project) => {
     setIsSubmitting(true);
