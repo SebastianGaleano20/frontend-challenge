@@ -9,7 +9,6 @@ import {
 } from "@/types/components/index";
 import { useToast } from "@/context/ToastContext";
 
-//Componente para crear un nuevo proyecto
 export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
@@ -24,37 +23,46 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
     status: "IN_PROGRESS",
   });
 
+  // Si se pasa un proyecto en modo edición, actualizamos el formulario
   useEffect(() => {
     if (project) {
-      setFormData(project);
+      const cleanedDevelopers = project.developers.map((dev) => ({
+        devId: dev.devId,
+        role: dev.role,
+      }));
+  
+      setFormData({
+        id: project.id,
+        name: project.name,
+        description: project.description,
+        status: project.status,
+        developers: cleanedDevelopers,
+      });
     }
   }, [project]);
 
+  // Cargamos los developers y managers desde el API
   useEffect(() => {
-    // Función para obtener los datos desarrolladores
     const fetchDevelopers = async () => {
       try {
         const response = await fetch(
           "https://pj-managament-api.up.railway.app/api/dev"
-        ); //Obtenemos los datos
-        const data = await response.json(); //Convertimos a JSON
+        );
+        const data = await response.json();
         const allData = data.data;
-        const developers = allData.filter(
-          (dev: Developer) => dev.role === "DEVELOPER"
-        );
-        const managers = allData.filter(
-          (dev: Developer) => dev.role === "MANAGER"
-        );
-        setDevelopers(developers); // Guarda los datos en el estado
-        setManager(managers);
+        const devs = allData.filter((dev: Developer) => dev.role === "DEVELOPER");
+        const mgrs = allData.filter((dev: Developer) => dev.role === "MANAGER");
+        setDevelopers(devs);
+        setManager(mgrs);
       } catch (error) {
-        showToast("Error al cargar los Project Managers", "error"); //Mostramos un mensaje de error
+        showToast("Error al cargar los Project Managers", "error");
       }
     };
 
-    fetchDevelopers(); // Llama a la función de carga de datos
-  }, [showToast]); //Dependencias
+    fetchDevelopers();
+  }, [showToast]);
 
+  // Manejo de cambios en inputs y selects
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -64,12 +72,12 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
 
     if (name === "assignedDev" || name === "projectManager") {
       const devId = parseInt(value);
+      // Definimos el role según el select: "MANAGER" para projectManager, "DEVELOPER" para assignedDev
       const role = name === "projectManager" ? "MANAGER" : "DEVELOPER";
-
+     
       setFormData((prev) => {
-        // Remover cualquier dev anterior con ese rol
+        // Remover cualquier developer que ya tenga el mismo rol para evitar duplicados
         const filtered = prev.developers.filter((dev) => dev.role !== role);
-
         return {
           ...prev,
           developers: [...filtered, { devId, role }],
@@ -83,13 +91,22 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
     }
   };
 
+  // Manejo del submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const { id, ...dataToSend } = formData; // 👈 eliminamos 'id' del body
-      console.log(dataToSend)
+      // Eliminamos "id" y nos aseguramos de transformar cada objeto developer para solo conservar devId y role
+      const { id, ...dataToSend } = formData;
+      if (dataToSend.developers && Array.isArray(dataToSend.developers)) {
+        dataToSend.developers = dataToSend.developers.map((dev: any) => ({
+          devId: dev.devId,
+          role: dev.role,
+        }));
+      }
+      console.log("Data a enviar:", dataToSend);
+
       const response = await fetch(
         project
           ? `https://pj-managament-api.up.railway.app/api/projects/${project.id}`
@@ -99,7 +116,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(dataToSend), // 👈 enviamos sin id
+          body: JSON.stringify(dataToSend),
         }
       );
 
@@ -139,6 +156,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           required
         />
       </section>
+
       <section className="mb-4">
         <label className="block text-sm font-bold mb-2" htmlFor="description">
           Descripción
@@ -152,17 +170,15 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           rows={3}
         ></textarea>
       </section>
+
       <section className="mb-4">
-        <label
-          className="block text-sm font-bold mb-2"
-          htmlFor="projectManager"
-        >
+        <label className="block text-sm font-bold mb-2" htmlFor="projectManager">
           Project Manager
         </label>
         <select
           id="projectManager"
           name="projectManager"
-          className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           value={
             formData.developers.find((d) => d.role === "MANAGER")?.devId ?? ""
           }
@@ -177,6 +193,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           ))}
         </select>
       </section>
+
       <section className="mb-4">
         <label className="block text-sm font-bold mb-2" htmlFor="assignedDev">
           Programador Asignado
@@ -184,7 +201,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
         <select
           id="assignedDev"
           name="assignedDev"
-          className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           value={
             formData.developers.find((d) => d.role === "DEVELOPER")?.devId ?? ""
           }
@@ -199,6 +216,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           ))}
         </select>
       </section>
+
       <section className="mb-4">
         <label className="block text-sm font-bold mb-2" htmlFor="status">
           Estado
@@ -211,10 +229,12 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           onChange={handleChange}
           required
         >
-          <option value="IN_PROGRESS">Habilitado</option>
-          <option value="CANCELED">Deshabilitado</option>
+          <option value="IN_PROGRESS">En Progreso</option>
+          <option value="COMPLETED">Completado</option>
+          <option value="CANCELED">Cancelado</option>
         </select>
       </section>
+
       <section className="flex items-center justify-between">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -224,7 +244,6 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           {isSubmitting
             ? "Guardando..."
             : (project ? "Actualizar" : "Crear") + " Proyecto"}
-          {/* expresion ternaria para mostrar el texto de actualizar o crear */}
         </button>
       </section>
     </form>

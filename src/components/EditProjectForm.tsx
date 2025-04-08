@@ -54,8 +54,9 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
       if (!response.ok) {
         throw new Error("Failed to update project");
       }
+      console.log(updatedProject)
       showToast("Proyecto actualizado correctamente", "success");
-      router.push("/projects");
+      router.push("/");
       router.refresh();
     } catch (error) {
       showToast("Error al actualizar el proyecto", "error");
