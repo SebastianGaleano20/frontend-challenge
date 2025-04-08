@@ -89,7 +89,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
 
     try {
       const { id, ...dataToSend } = formData; // 👈 eliminamos 'id' del body
-
+      console.log(dataToSend)
       const response = await fetch(
         project
           ? `https://pj-managament-api.up.railway.app/api/projects/${project.id}`
@@ -212,7 +212,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           required
         >
           <option value="IN_PROGRESS">Habilitado</option>
-          <option value="CANCELLED">Deshabilitado</option>
+          <option value="CANCELED">Deshabilitado</option>
         </select>
       </section>
       <section className="flex items-center justify-between">

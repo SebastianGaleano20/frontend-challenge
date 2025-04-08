@@ -25,8 +25,9 @@ export default function EditProjectForm({ projectId }: EditProjectFormProps) {
           throw new Error("Failed to fetch project");
         }
         const data = await response.json();
-        const dataProject = data.data;
-        setProject(dataProject);
+        const allDataProject = data.data;
+        const { createdAt, updateAt, ...cleanProject } = allDataProject; // Desestructuramos para quitar propiedades no necesarias
+        setProject(cleanProject);
       } catch (error) {
         showToast("Error al actualizar datos", "error");
       } finally {

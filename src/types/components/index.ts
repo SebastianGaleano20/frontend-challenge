@@ -13,7 +13,7 @@ export type Project = {
   name: string;
   description: string;
   developers: { devId: number; role: "MANAGER" | "DEVELOPER" }[];
-  status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
+  status: "IN_PROGRESS" | "COMPLETED" | "CANCELED";
 };
 
 export type ProjectFormProps = {
