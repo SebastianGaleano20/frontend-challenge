@@ -12,7 +12,7 @@ export type Project = {
   id: number;
   name: string;
   description: string;
-  developers: { devId: number; role: "MANAGER" | "DEVELOPER" }[];
+  developers: { devId: number; role?: "MANAGER" | "DEVELOPER" }[];
   status: "IN_PROGRESS" | "COMPLETED" | "CANCELED";
 };
 

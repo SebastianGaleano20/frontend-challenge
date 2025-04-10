@@ -30,7 +30,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
         devId: dev.devId,
         role: dev.role,
       }));
-  
+
       setFormData({
         id: project.id,
         name: project.name,
@@ -50,7 +50,9 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
         );
         const data = await response.json();
         const allData = data.data;
-        const devs = allData.filter((dev: Developer) => dev.role === "DEVELOPER");
+        const devs = allData.filter(
+          (dev: Developer) => dev.role === "DEVELOPER"
+        );
         const mgrs = allData.filter((dev: Developer) => dev.role === "MANAGER");
         setDevelopers(devs);
         setManager(mgrs);
@@ -74,7 +76,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
       const devId = parseInt(value);
       // Definimos el role según el select: "MANAGER" para projectManager, "DEVELOPER" para assignedDev
       const role = name === "projectManager" ? "MANAGER" : "DEVELOPER";
-     
+
       setFormData((prev) => {
         // Remover cualquier developer que ya tenga el mismo rol para evitar duplicados
         const filtered = prev.developers.filter((dev) => dev.role !== role);
@@ -102,7 +104,6 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
       if (dataToSend.developers && Array.isArray(dataToSend.developers)) {
         dataToSend.developers = dataToSend.developers.map((dev: any) => ({
           devId: dev.devId,
-          role: dev.role,
         }));
       }
       console.log("Data a enviar:", dataToSend);
@@ -172,7 +173,10 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
       </section>
 
       <section className="mb-4">
-        <label className="block text-sm font-bold mb-2" htmlFor="projectManager">
+        <label
+          className="block text-sm font-bold mb-2"
+          htmlFor="projectManager"
+        >
           Project Manager
         </label>
         <select
