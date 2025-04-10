@@ -2,6 +2,7 @@ export type Role = "DEVELOPER" | "MANAGER";
 type idDev = {
   devId: number;
   role?: Role;
+  developer?: Developer;
 };
 
 export type Developer = {
@@ -13,7 +14,7 @@ export type Developer = {
 };
 
 export type Project = {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   developers: idDev[];
