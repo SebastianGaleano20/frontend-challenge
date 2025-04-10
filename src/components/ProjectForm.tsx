@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
+import type {
   Developer,
-  type Project,
-  type ProjectFormProps,
+  Project,
+  ProjectFormProps,
+  Role
 } from "@/types/components/index";
 import { useToast } from "@/context/ToastContext";
 
@@ -27,8 +28,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
   useEffect(() => {
     if (project) {
       const cleanedDevelopers = project.developers.map((dev) => ({
-        devId: dev.devId,
-        role: dev.role,
+        devId: Number(dev.devId)
       }));
 
       setFormData({
@@ -64,6 +64,12 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
     fetchDevelopers();
   }, [showToast]);
 
+  // Función de ayuda para obtener los valores de selects como string
+  const getSelectValue = (role: string) => {
+    const developer = formData.developers.find(d => d.role === role);
+    return developer ? String(developer.devId) : "";
+  };
+
   // Manejo de cambios en inputs y selects
   const handleChange = (
     e: React.ChangeEvent<
@@ -73,13 +79,13 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
     const { name, value } = e.target;
 
     if (name === "assignedDev" || name === "projectManager") {
-      const devId = parseInt(value);
+      const devId = parseInt(value); // Convertimos a número
       // Definimos el role según el select: "MANAGER" para projectManager, "DEVELOPER" para assignedDev
       const role = name === "projectManager" ? "MANAGER" : "DEVELOPER";
 
       setFormData((prev) => {
         // Remover cualquier developer que ya tenga el mismo rol para evitar duplicados
-        const filtered = prev.developers.filter((dev) => dev.role !== role);
+        const filtered = prev.developers.filter((dev) => dev.devId !== devId && dev.role !== role);
         return {
           ...prev,
           developers: [...filtered, { devId, role }],
@@ -99,13 +105,30 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
     setIsSubmitting(true);
 
     try {
-      // Eliminamos "id" y nos aseguramos de transformar cada objeto developer para solo conservar devId y role
-      const { id, ...dataToSend } = formData;
-      if (dataToSend.developers && Array.isArray(dataToSend.developers)) {
-        dataToSend.developers = dataToSend.developers.map((dev: any) => ({
-          devId: dev.devId,
-        }));
-      }
+         // Encontramos el manager y el developer
+    const manager = formData.developers.find(dev => dev.role === "MANAGER");
+    const developer = formData.developers.find(dev => dev.role === "DEVELOPER");
+    
+    // Creamos un nuevo array con solo los dos developers necesarios
+    const devArray = [];
+    
+    // Solo añadimos si existen
+    if (manager?.devId) {
+      devArray.push({ devId: Number(manager.devId) });
+    }
+    
+    if (developer?.devId) {
+      devArray.push({ devId: Number(developer.devId) });
+    }
+    
+      // Preparamos solo los datos que necesitamos enviar
+      const dataToSend = {
+        name: formData.name,
+        description: formData.description,
+        status: formData.status,
+        developers: devArray,
+      };
+
       console.log("Data a enviar:", dataToSend);
 
       const response = await fetch(
@@ -183,15 +206,13 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           id="projectManager"
           name="projectManager"
           className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-          value={
-            formData.developers.find((d) => d.role === "MANAGER")?.devId ?? ""
-          }
+          value={getSelectValue("MANAGER")}
           onChange={handleChange}
           required
         >
           <option value="">Seleccionar Project Manager</option>
           {manager.map((dev) => (
-            <option key={dev.id} value={dev.id}>
+            <option key={dev.id} value={String(dev.id)}>
               {dev.name}
             </option>
           ))}
@@ -206,15 +227,13 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
           id="assignedDev"
           name="assignedDev"
           className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-          value={
-            formData.developers.find((d) => d.role === "DEVELOPER")?.devId ?? ""
-          }
+          value={getSelectValue("DEVELOPER")}
           onChange={handleChange}
           required
         >
           <option value="">Seleccionar Programador</option>
           {developer.map((dev) => (
-            <option key={dev.id} value={dev.id}>
+            <option key={dev.id} value={String(dev.id)}>
               {dev.name}
             </option>
           ))}

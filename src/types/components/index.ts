@@ -1,4 +1,8 @@
-type Role = "DEVELOPER" | "MANAGER";
+export type Role = "DEVELOPER" | "MANAGER";
+type idDev = {
+  devId: number;
+  role?: Role;
+};
 
 export type Developer = {
   id: number;
@@ -9,10 +13,10 @@ export type Developer = {
 };
 
 export type Project = {
-  id: number;
+  id?: number;
   name: string;
   description: string;
-  developers: { devId: number; role?: "MANAGER" | "DEVELOPER" }[];
+  developers: idDev[];
   status: "IN_PROGRESS" | "COMPLETED" | "CANCELED";
 };
 
